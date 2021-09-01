@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.cfgtest.services</groupId>
+    <artifactId>mvn-bom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+    </dependencies>
+
+    <!-- Need to define within child , they will inherit the scope and version from parent -->
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>2.5.2</version>
+            </dependency>
+
+<!--            OpenFeign dependency -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>3.0.3</version>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>-->
+<!--                <version>3.0.3</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>javax.servlet</groupId>-->
+<!--                        <artifactId>servlet-api</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
+
+            <!--		Custom dependencies -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>1.5.9</version>
+            </dependency>
+
+            <!-- Eureka client dependency -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>3.0.3</version>
+            </dependency>
+
+
+            <!-- For Junit launcher issue in IntelliJ -->
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>0.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>2.5.4</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--			Plugin to server stubs
+ https://stackoverflow.com/questions/62915594/open-api-code-generator-maven-plugin-uses-old-swagger-2-annotations-instead-of-s
+
+ This plugin generates swagger v2 annotations and hence  documentations are not generated right.
+
+List of all options
+https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md
+ -->
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>4.2.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--			Plugin to generate swagger documentation based on annotations
+                The plugin generates documentation within target folder and can be accessed using the below url
+                http://localhost:8080/v3/api-docs.
+
+                Url can be overridden using configuration entries
+                -->
+                <!--			<plugin>-->
+                <!--				<groupId>org.springdoc</groupId>-->
+                <!--				<artifactId>springdoc-openapi-maven-plugin</artifactId>-->
+                <!--				<version>0.2</version>-->
+                <!--				<executions>-->
+                <!--					<execution>-->
+                <!--						<phase>integration-test</phase>-->
+                <!--						<goals>-->
+                <!--							<goal>generate</goal>-->
+                <!--						</goals>-->
+                <!--					</execution>-->
+                <!--				</executions>-->
+                <!--				<configuration>-->
+                <!--&lt;!&ndash;					<apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl>&ndash;&gt;-->
+                <!--					<outputFileName>risk-evaluation.json</outputFileName>-->
+                <!--				</configuration>-->
+                <!--			</plugin>-->
+                <!--			Plugin to generate pojo objects.. Usually used by client applications-->
+                <!--			<plugin>-->
+                <!--			<groupId>io.swagger</groupId>-->
+                <!--			<artifactId>swagger-codegen-maven-plugin</artifactId>-->
+                <!--			<version>2.2.3</version>-->
+                <!--			</plugin>-->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <!-- Used to generate the mapper implementation class during build, using annotation process concept of java.
+                                Annnotations can be processed at runtime using reflection but it would rake time at startup, hence an alternate approach
+                                is to use annotation processors at compile-time.
+                                Inorder to perform, we need to define a class that extends AbstractProcessor and register it at compile time.. the processor
+                                contains an annotation to filter. within Maven you can register such classes using annotationProcessor tag..
+                                In below case we need mapstruct processor and lombok's processor to be registered which will modify the code at compile time.
+                                During build annotation processors are called by compiler when one of the configured annotations on the processors are found.
+                                THe processor then generates code or calls other annotation processors based on the logic within process().
+                            -->
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                            <!-- Contains the mapstruct annotation processor -->
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                            <!-- Ties mapstruct with lombok. -->
+                            <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                    <version>${lombok.version}</version>
+                            </path>
+<!--                            Needed when using lombok 1.18.16 and above -->
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>0.2.0</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+<!--                            Compiler argument that will make the generated class spring aware by adding @Component annotation.-->
+                            <compilerArg>
+                                -Amapstruct.defaultComponentModel=spring
+                            </compilerArg>
+
+                        </compilerArgs>
+                    </configuration>
+
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
+
+    </build>
+
+</project>
